@@ -7,10 +7,276 @@
       name="description"
       content="BookNest — discover and explore books with the Open Library."
     />
-    <title>BookNest</title>
+    <title>BookNest — Digital Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div id="app"></div>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header" id="top">
+      <div class="container header__inner">
+        <a class="brand" href="#top" aria-label="BookNest home">
+          <span class="brand__mark" aria-hidden="true"></span>
+          <span class="brand__name">BookNest</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          data-nav-toggle
+        >
+          <span class="visually-hidden">Menu</span>
+          <span class="nav-toggle__bars" aria-hidden="true"></span>
+        </button>
+
+        <nav class="site-nav" id="site-nav" aria-label="Primary" data-site-nav>
+          <ul class="site-nav__list">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#explore">Explore</a></li>
+            <li><a href="#my-library">My Library</a></li>
+          </ul>
+        </nav>
+
+        <form class="header-search" role="search" data-search-form="header">
+          <label class="visually-hidden" for="header-search">Search books</label>
+          <input
+            id="header-search"
+            name="q"
+            type="search"
+            placeholder="Search books…"
+            autocomplete="off"
+            data-search-input
+          />
+          <button type="submit" class="btn btn--ghost">Search</button>
+        </form>
+
+        <div class="profile" aria-label="Profile">
+          <span class="profile__avatar" aria-hidden="true">BN</span>
+          <span class="visually-hidden">Guest reader</span>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="home" aria-labelledby="hero-heading">
+        <div class="hero__backdrop" aria-hidden="true"></div>
+        <div class="container hero__content">
+          <p class="hero__brand">BookNest</p>
+          <h1 id="hero-heading">Discover Your Next Favourite Book</h1>
+          <p class="hero__lead">
+            Browse curated titles across fiction, science, history and more —
+            powered by the Open Library.
+          </p>
+
+          <form class="hero-search" role="search" data-search-form="hero">
+            <label class="visually-hidden" for="hero-search">Search the library</label>
+            <input
+              id="hero-search"
+              name="q"
+              type="search"
+              placeholder="Try “javascript”, “biography”, or an author…"
+              autocomplete="off"
+              data-search-input
+            />
+            <button type="submit" class="btn btn--primary">Search books</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="categories" aria-labelledby="categories-heading">
+        <div class="container">
+          <div class="section-head">
+            <h2 id="categories-heading">Browse by category</h2>
+            <p>Jump into a subject that matches your mood.</p>
+          </div>
+          <div
+            class="category-list"
+            role="group"
+            aria-label="Book categories"
+            data-category-list
+          ></div>
+        </div>
+      </section>
+
+      <section
+        class="featured"
+        aria-labelledby="featured-heading"
+        data-featured-panel
+      >
+        <div class="container">
+          <div class="section-head">
+            <h2 id="featured-heading">Featured books</h2>
+            <p>Standout titles fetched live from Open Library.</p>
+          </div>
+
+          <div class="state state--loading" data-state="loading">
+            <div class="spinner" aria-hidden="true"></div>
+            <p>Loading featured books…</p>
+          </div>
+
+          <div class="state state--error" data-state="error" hidden>
+            <p data-error-message>Something went wrong.</p>
+            <button type="button" class="btn btn--primary" data-retry="featured">
+              Try again
+            </button>
+          </div>
+
+          <div class="state state--empty" data-state="empty" hidden>
+            <p>No featured books found right now.</p>
+          </div>
+
+          <div data-state="content" hidden>
+            <div
+              class="book-grid book-grid--featured"
+              data-featured-grid
+              aria-live="polite"
+            ></div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="explore"
+        id="explore"
+        aria-labelledby="explore-heading"
+        data-explore-panel
+      >
+        <div class="container">
+          <div class="section-head section-head--row">
+            <div>
+              <h2 id="explore-heading">Explore books</h2>
+              <p data-explore-status>Loading books…</p>
+            </div>
+            <div class="explore-toolbar">
+              <label class="sort-label" for="explore-sort">Sort</label>
+              <select id="explore-sort" data-explore-sort>
+                <option value="relevance">Relevance</option>
+                <option value="new">Newest</option>
+                <option value="old">Oldest</option>
+                <option value="editions">Most editions</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="state state--loading" data-state="loading">
+            <div class="spinner" aria-hidden="true"></div>
+            <p>Searching Open Library…</p>
+          </div>
+
+          <div class="state state--error" data-state="error" hidden>
+            <p data-error-message>Something went wrong.</p>
+            <button type="button" class="btn btn--primary" data-retry="explore">
+              Try again
+            </button>
+          </div>
+
+          <div class="state state--empty" data-state="empty" hidden>
+            <p>No books match your search. Try another title, author, or category.</p>
+          </div>
+
+          <div data-state="content" hidden>
+            <div class="book-grid" data-explore-grid aria-live="polite"></div>
+            <div class="load-more-wrap">
+              <button type="button" class="btn btn--primary" data-load-more hidden>
+                Load more
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="my-library"
+        id="my-library"
+        aria-labelledby="library-heading"
+        data-library-panel
+      >
+        <div class="container">
+          <div class="section-head">
+            <h2 id="library-heading">My Library</h2>
+            <p data-library-count>
+              Save books from the details panel to build your shelf.
+            </p>
+          </div>
+
+          <div class="state state--empty" data-state="empty">
+            <p>Your personal shelf is empty.</p>
+          </div>
+
+          <div data-state="content" hidden>
+            <div class="book-grid" data-library-grid aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer__inner">
+        <div class="footer__about">
+          <h2 class="footer__brand">BookNest</h2>
+          <p>
+            BookNest helps you discover books using the public Open Library
+            Search API. Saved books stay on this device only.
+          </p>
+        </div>
+        <p class="footer__copy">
+          <small>&copy; <span data-year></span> BookNest. All rights reserved.</small>
+        </p>
+      </div>
+    </footer>
+
+    <dialog class="book-modal" data-book-modal aria-labelledby="modal-title">
+      <div class="book-modal__panel">
+        <button
+          type="button"
+          class="book-modal__close"
+          data-modal-close
+          aria-label="Close details"
+        >
+          ×
+        </button>
+
+        <div class="book-modal__layout">
+          <div class="book-modal__cover" data-modal-cover></div>
+          <div class="book-modal__info">
+            <h2 id="modal-title" data-modal-title></h2>
+            <p class="book-modal__authors" data-modal-authors></p>
+            <p data-modal-year></p>
+            <p data-modal-editions></p>
+            <p class="book-modal__rating" data-modal-rating hidden></p>
+
+            <h3 class="book-modal__subjects-title">Subjects</h3>
+            <ul class="book-modal__subjects" data-modal-subjects></ul>
+
+            <div class="book-modal__actions">
+              <button type="button" class="btn btn--primary" data-modal-save>
+                Save to My Library
+              </button>
+              <a
+                class="btn btn--ghost"
+                data-modal-link
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View on Open Library
+              </a>
+              <button type="button" class="btn btn--ghost" data-modal-close>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
